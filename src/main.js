@@ -42,15 +42,37 @@ function renderSkills() {
   }
 }
 
+const skillsCategories = [
+  { category: "Product Management", items: "Scrum, Kanban, Discovery, Prototipação, RICE, MoSCoW, Roadmap" },
+  { category: "Arquitetura & Backend", items: "Go (Golang), C# (.NET), Node.js, Microservices, Event-Driven" },
+  { category: "APIs & Documentação", items: "REST APIs, Swagger, Redocly, Insomnia" },
+  { category: "Cloud & Infra", items: "AWS (Lambda, SQS, ECS, RDS), Docker, mTLS, Serverless" },
+  { category: "E-commerce & ERP", items: "VTEX, Totvs Protheus, SAP, NetSuite, Integrações Bancárias" },
+  { category: "Dados & IA", items: "Google Antigravity, SQL Server, ETL, Generative AI (Claude API)" },
+  { category: "Idiomas", items: "Advanced English" }
+];
+
 function renderMainSkills() {
   const container = document.getElementById('skills-grid');
   if (container) {
-    skills.forEach(skill => {
-      const card = document.createElement('div');
-      card.className = 'main-skill-card';
-      card.textContent = skill;
-      container.appendChild(card);
-    });
+    container.innerHTML = `
+      <table class="skills-table">
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Tecnologias e Metodologias</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${skillsCategories.map(cat => `
+            <tr>
+              <td class="skill-category">${cat.category}</td>
+              <td class="skill-items">${cat.items}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
   }
 }
 
