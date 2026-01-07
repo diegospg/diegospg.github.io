@@ -10,7 +10,7 @@ Silos de dados on-premise limitavam a escalabilidade e geravam latência excessi
 ## Solução
 Migração para AWS RDS com replicação multi-AZ. Refatoração da camada de aplicação em **C# (.NET Core)** e encapsulamento em containers **Docker** orquestrados por **Amazon ECS**.
 
-### Trade-off
+## Trade-off
 Optamos pelo **Replatforming (Refatoração)** em vez do Lift & Shift. O tempo de entrega foi maior, mas eliminamos custos de licenciamento legado e garantimos portabilidade futura.
 
 ## Resultados

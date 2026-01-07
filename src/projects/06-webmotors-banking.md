@@ -10,7 +10,7 @@ Alta fricção no funil de vendas; o usuário abandonava o portal para simular c
 ## Solução
 Integração segura via mTLS com o Core Banking. Utilização de **Golang** para o motor de simulação e **Amazon SQS** para gestão assíncrona.
 
-### Trade-off
+## Trade-off
 Decisão por **Processamento Assíncrono**. O feedback é dado em etapas, evitando o bloqueio da interface (UI) durante as pesadas validações bancárias.
 
 ## Resultados

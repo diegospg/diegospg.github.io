@@ -10,7 +10,7 @@ Tempo médio de resposta inicial de 24 horas, sobrecarregando o suporte e degrad
 ## Solução
 Integração da LLM **Claude (Anthropic)** via API utilizando **Node.js** e **AWS Lambda** para triagem automática e resposta inteligente.
 
-### Trade-off
+## Trade-off
 Uso de **Arquitetura Serverless (Lambda)**. Escolha baseada na economia de custos em períodos de baixa demanda, aceitando o risco de cold start (mitigado com otimização do runtime).
 
 ## Resultados

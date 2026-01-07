@@ -10,7 +10,7 @@ Falta de sincronia em tempo real entre o faturamento e a operação de armazém,
 ## Solução
 Desenvolvimento de um Middleware em **C# (.NET Framework)** utilizando microserviços e mensageria (**AWS SQS**) para garantir resiliência nas transações.
 
-### Trade-off
+## Trade-off
 Implementação de **Consistência Eventual**. Aceitamos um atraso milimétrico na sincronia em troca de uma operação que nunca trava, mesmo se o SAP oscilar.
 
 ## Resultados

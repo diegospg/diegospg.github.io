@@ -10,7 +10,7 @@ Necessidade de reduzir dependência de boletos (baixa liquidez) e taxas de cart�
 ## Solução
 Jornada de pagamento PIX integrada ao checkout e faturamento no NetSuite, utilizando **C#** e arquitetura baseada em eventos (**Event-Driven**).
 
-### Trade-off
+## Trade-off
 Foco em **Idempotência**. Implementamos travas rigorosas na cadeia de eventos para evitar bitributação ou liberações duplicadas em cenários de instabilidade de rede.
 
 ## Resultados

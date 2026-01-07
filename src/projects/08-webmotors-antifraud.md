@@ -10,7 +10,7 @@ Análise de risco manual demorada (48h), causando perdas operacionais e insatisf
 ## Solução
 Implementação do motor de regras **Visa Cybersource** integrado ao fluxo de publicação em **C#** via microserviços na AWS.
 
-### Trade-off
+## Trade-off
 Modelo **"Post-Auth Review"**. Autorizamos o pagamento e analisamos o risco em background, aceitando um risco marginal de chargeback para garantir a entrega imediata do serviço.
 
 ## Resultados
