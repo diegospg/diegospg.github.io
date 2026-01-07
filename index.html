@@ -40,7 +40,7 @@
 
     <div class="contact-info">
       <div class="contact-item">
-        Sortocaba, SP
+        Sorocaba, SP
       </div>
       <div class="contact-item">
         diego.oliveira.spg@gmail.com
@@ -52,13 +52,29 @@
   </aside>
 
   <main>
-    <header>
-      <h1>Portfólio de Projetos</h1>
-      <p class="subtitle">Uma seleção de entregas estratégicas e produtos digitais.</p>
-    </header>
+    <nav class="content-tabs">
+      <button class="tab-btn active" data-tab="projects">Projetos</button>
+      <button class="tab-btn" data-tab="skills">Skills</button>
+    </nav>
 
-    <div id="projects-grid" class="projects-grid">
-      <!-- Projects injected here -->
+    <div id="projects-view">
+      <div class="section-header">
+        <h1>Portfólio de Projetos</h1>
+        <p class="subtitle">Uma seleção de entregas estratégicas e produtos digitais.</p>
+      </div>
+      <div id="projects-grid" class="projects-grid">
+        <!-- Projects injected here -->
+      </div>
+    </div>
+
+    <div id="skills-view" class="hidden">
+      <div class="section-header">
+        <h1>Competências & Ferramentas</h1>
+        <p class="subtitle">Stack tecnológico e metodologias aplicadas.</p>
+      </div>
+      <div id="skills-grid" class="skills-grid">
+        <!-- Skills injected here -->
+      </div>
     </div>
   </main>
 

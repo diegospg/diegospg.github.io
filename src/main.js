@@ -11,12 +11,13 @@ mermaid.initialize({
 
 // Profile Data
 const skills = [
-  "Product Strategy", "Discovery", "Backlog Mgmt",
+  "Product Strategy", "Discovery", "Backlog Management",
   "Scrum / Kanban", "OKRs & KPIs", "SQL", "Node.js",
   "ERP (Totvs/NetSuite)", "AWS", "Jira / Confluence",
   "Data Analysis", "AI Integration",
   "Software Development", "Golang",
-  "Databases", "Leadership"
+  "Databases", "Leadership",
+  "Advanced English"
 ];
 
 function renderSkills() {
@@ -40,6 +41,41 @@ function renderSkills() {
     container.appendChild(marqueeContent);
   }
 }
+
+function renderMainSkills() {
+  const container = document.getElementById('skills-grid');
+  if (container) {
+    skills.forEach(skill => {
+      const card = document.createElement('div');
+      card.className = 'main-skill-card';
+      card.textContent = skill;
+      container.appendChild(card);
+    });
+  }
+}
+
+// --- Tab Logic ---
+const tabs = document.querySelectorAll('.tab-btn');
+const projectsView = document.getElementById('projects-view');
+const skillsView = document.getElementById('skills-view');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    // Remove active class from all tabs
+    tabs.forEach(t => t.classList.remove('active'));
+    // Add active to clicked
+    tab.classList.add('active');
+
+    const tabName = tab.getAttribute('data-tab');
+    if (tabName === 'projects') {
+      projectsView.classList.remove('hidden');
+      skillsView.classList.add('hidden');
+    } else {
+      projectsView.classList.add('hidden');
+      skillsView.classList.remove('hidden');
+    }
+  });
+});
 
 // --- Project Loading ---
 const projects = import.meta.glob('./projects/*.md', { query: '?raw', import: 'default' });
@@ -159,4 +195,5 @@ document.addEventListener('click', (e) => {
 
 // --- Init ---
 renderSkills();
+renderMainSkills();
 loadProjects();
