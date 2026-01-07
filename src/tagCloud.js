@@ -48,8 +48,12 @@ export class TagCloud {
             });
         });
 
-        // Event listeners for mouse interaction
-        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        // Event listeners for mouse interaction on the container
+        this.container.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        this.container.addEventListener('mouseleave', () => {
+            this.mouseX = 0;
+            this.mouseY = 0;
+        });
 
         // Start animation loop
         this.animate();
@@ -61,9 +65,9 @@ export class TagCloud {
         const x = e.clientX - (rect.left + rect.width / 2);
         const y = e.clientY - (rect.top + rect.height / 2);
 
-        // Normalize speed based on distance from center
-        this.mouseX = (x / rect.width) * 2;
-        this.mouseY = (y / rect.height) * 2;
+        // Normalize speed (slower sensitivity)
+        this.mouseX = (x / rect.width) * 0.5;
+        this.mouseY = (y / rect.height) * 0.5;
     }
 
     rotate(item, xRot, yRot) {

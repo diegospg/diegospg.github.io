@@ -26,7 +26,8 @@ function renderSkills() {
     // Initialize interactive tag cloud
     new TagCloud(container, skills, {
       radius: 140,
-      maxSpeed: 0.8
+      radius: 140,
+      maxSpeed: 0.2
     });
   }
 }
@@ -148,4 +149,4 @@ document.addEventListener('click', (e) => {
 
 // --- Init ---
 renderSkills();
-renderProjects();
+loadProjects();
