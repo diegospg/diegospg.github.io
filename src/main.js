@@ -1,7 +1,6 @@
 import './style.css'
 import { marked } from 'marked'
 import mermaid from 'mermaid'
-import { TagCloud } from './tagCloud.js'
 
 // Initialize Mermaid
 mermaid.initialize({
@@ -23,12 +22,22 @@ const skills = [
 function renderSkills() {
   const container = document.getElementById('skills-list');
   if (container) {
-    // Initialize interactive tag cloud
-    new TagCloud(container, skills, {
-      radius: 140,
-      radius: 140,
-      maxSpeed: 0.2
+    // Render static list for CSS marquee
+    const marqueeContent = document.createElement('div');
+    marqueeContent.className = 'skills-marquee-content';
+
+    // Duplicate list for seamless infinite scroll
+    const allSkills = [...skills, ...skills];
+
+    allSkills.forEach(skill => {
+      const tag = document.createElement('div');
+      tag.className = 'skill-item';
+      tag.textContent = skill;
+      marqueeContent.appendChild(tag);
     });
+
+    container.innerHTML = '';
+    container.appendChild(marqueeContent);
   }
 }
 
@@ -70,11 +79,12 @@ async function loadProjects() {
     const card = document.createElement('div');
     card.className = 'project-card';
     card.innerHTML = `
-      <h3>${project.title}</h3>
-      <p>${project.summary}</p>
+      <h3 class="project-title">${project.title}</h3>
+      <p class="project-summary">${project.summary}</p>
       <div class="project-tags">
         ${project.tags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}
       </div>
+      <span class="read-more">Ver Detalhes →</span>
     `;
 
     card.addEventListener('click', () => openModal(project));
