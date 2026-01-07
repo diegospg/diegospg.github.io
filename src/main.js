@@ -1,107 +1,131 @@
 import './style.css'
 import { marked } from 'marked'
+import mermaid from 'mermaid'
+import { TagCloud } from './tagCloud.js'
 
-// --- Skills Data ---
+// Initialize Mermaid
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'dark',
+  securityLevel: 'loose',
+});
+
+// Profile Data
 const skills = [
   "Product Strategy", "Discovery", "Backlog Mgmt",
   "Scrum / Kanban", "OKRs & KPIs", "SQL", "Node.js",
   "ERP (Totvs/NetSuite)", "AWS", "Jira / Confluence",
-  "Data Analysis", "AI Integration"
+  "Data Analysis", "AI Integration",
+  "Software Development", "Golang",
+  "Databases", "Leadership"
 ];
 
 function renderSkills() {
-  const container = document.querySelector('.skills-container');
-  container.innerHTML = skills.map(skill =>
-    `<span class="skill-tag">${skill}</span>`
-  ).join('');
+  const container = document.getElementById('skills-list');
+  if (container) {
+    // Initialize interactive tag cloud
+    new TagCloud(container, skills, {
+      radius: 140,
+      maxSpeed: 0.8
+    });
+  }
 }
 
 // --- Project Loading ---
-const modules = import.meta.glob('./projects/*.md', { query: '?raw', import: 'default', eager: true });
+const projects = import.meta.glob('./projects/*.md', { query: '?raw', import: 'default' });
 
-function parseProject(filename, content) {
-  // Simple frontmatter parser
-  // Expects format:
-  // ---
-  // title: My Project
-  // summary: Short description
-  // tags: Tag1, Tag2
-  // ---
-  // Markdown content...
+async function loadProjects() {
+  const projectsContainer = document.getElementById('projects-grid');
+  const projectData = [];
 
-  const parts = content.split('---');
-  let meta = {};
-  let body = content;
+  for (const path in projects) {
+    const rawContent = await projects[path]();
+    // Parse Frontmatter manually (simple version)
+    const frontmatterRegex = /---\n([\s\S]*?)\n---/;
+    const match = rawContent.match(frontmatterRegex);
 
-  if (parts.length >= 3) {
-    const metaRaw = parts[1];
-    body = parts.slice(2).join('---');
+    if (match) {
+      const frontmatter = match[1];
+      const content = rawContent.replace(frontmatterRegex, '');
 
-    metaRaw.split('\n').forEach(line => {
-      const splitIndex = line.indexOf(':');
-      if (splitIndex > 0) {
-        const key = line.slice(0, splitIndex).trim();
-        const value = line.slice(splitIndex + 1).trim();
-        if (key === 'tags') {
-          meta[key] = value.split(',').map(t => t.trim());
-        } else {
-          meta[key] = value;
+      const metadata = {};
+      frontmatter.split('\n').forEach(line => {
+        const [key, ...value] = line.split(':');
+        if (key && value) {
+          metadata[key.trim()] = value.join(':').trim();
         }
-      }
-    });
+      });
+
+      projectData.push({
+        ...metadata,
+        content: content.trim(),
+        path
+      });
+    }
   }
 
-  // Fallback if no meta
-  if (!meta.title) meta.title = filename.split('/').pop().replace('.md', '').replace(/-/g, ' ');
-
-  return { meta, body: marked.parse(body) };
-}
-
-function renderProjects() {
-  const container = document.getElementById('projects-grid');
-  const projects = [];
-
-  for (const path in modules) {
-    const content = modules[path];
-    projects.push(parseProject(path, content));
-  }
-
-  container.innerHTML = projects.map((p, index) => `
-    <article class="project-card" onclick="window.openModal(${index})">
-      <h3 class="project-title">${p.meta.title}</h3>
-      <p class="project-summary">${p.meta.summary || 'Clique para ver mais detalhes.'}</p>
+  // Render Projects
+  projectData.forEach(project => {
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.innerHTML = `
+      <h3>${project.title}</h3>
+      <p>${project.summary}</p>
       <div class="project-tags">
-        ${p.meta.tags ? p.meta.tags.map(t => `<span class="project-tag">${t}</span>`).join('') : ''}
+        ${project.tags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}
       </div>
-      <a href="#" class="read-more">Ver Detalhes →</a>
-    </article>
-  `).join('');
+    `;
 
-  // Store projects globally for modal access
-  window.projectsData = projects;
+    card.addEventListener('click', () => openModal(project));
+    projectsContainer.appendChild(card);
+  });
 }
 
 // --- Modal Logic ---
 const modal = document.getElementById('project-modal');
 const modalTitle = document.getElementById('modal-title');
 const modalBody = document.getElementById('modal-body');
-const closeBtn = document.getElementById('close-modal');
+const closeBtn = document.querySelector('.close-modal');
 
-window.openModal = (index) => {
-  const p = window.projectsData[index];
-  modalTitle.textContent = p.meta.title;
-  modalBody.innerHTML = p.body;
+async function openModal(project) {
+  modalTitle.textContent = project.title;
+  modalBody.innerHTML = marked.parse(project.content);
   modal.classList.add('active');
-  document.body.style.overflow = 'hidden'; // prevent background scrolling
-};
+  document.body.style.overflow = 'hidden';
+
+  // Render Mermaid diagrams if any
+  try {
+    const mermaidBlocks = modalBody.querySelectorAll('.language-mermaid');
+    // marked renders ```mermaid as <pre><code class="language-mermaid">
+    // We need to transform this for mermaid.run
+
+    if (mermaidBlocks.length > 0) {
+      // Convert to simplified div structure for mermaid
+      mermaidBlocks.forEach((block, index) => {
+        const pre = block.parentElement; // <pre>
+        const div = document.createElement('div');
+        div.className = 'mermaid';
+        div.textContent = block.textContent;
+        div.id = `mermaid-${index}`;
+        pre.replaceWith(div);
+      });
+
+      await mermaid.run({
+        nodes: document.querySelectorAll('.mermaid')
+      });
+    }
+  } catch (err) {
+    console.error('Mermaid render error:', err);
+  }
+}
 
 function closeModal() {
   modal.classList.remove('active');
-  document.body.style.overflow = '';
+  document.body.style.overflow = 'auto';
 }
 
 closeBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => {
+window.addEventListener('click', (e) => {
   if (e.target === modal) closeModal();
 });
 

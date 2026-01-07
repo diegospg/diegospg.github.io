@@ -15,4 +15,30 @@ Foco em **Idempotência**. Implementamos travas rigorosas na cadeia de eventos p
 
 ## Resultados
 *   **40% de adoção** já no primeiro mês.
-*   Liquidez imediata para a companhia.
+*   **R$ 75 bi/ano** processados (TPV).
+*   **Zero downtime** durante Black Friday.
+
+## Fluxo e Arquitetura
+
+```mermaid
+graph TD
+    subgraph Users ["Jornada do Usuário"]
+        A[Cliente Webmotors] -->|Escolhe Veículo| B(Checkout)
+        B -->|Pagamento via PIX| C{Gerar QR Code}
+    end
+
+    subgraph AWS ["AWS & Backend"]
+        C -->|Request| D[API Gateway]
+        D -->|Event| E[Lambda - PIX Service]
+        E -->|Publish| F[SNS Topic: Transaction]
+        F -->|Subscribe| G[SQS Queue]
+        G -->|Process| H[Worker .NET Core]
+        H <-->|Persist| I[(DynamoDB)]
+    end
+
+    subgraph Bank ["Integração Bancária"]
+        H -->|PSP API| J[Banco Central / PSP]
+        J -->|Webhook Status| D
+    end
+```
+```
