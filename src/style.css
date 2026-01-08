@@ -280,6 +280,7 @@ h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   background: linear-gradient(to right, #fff, #94a3b8);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -496,4 +497,59 @@ h1 {
   .mobile-menu-btn {
     display: none;
   }
+}
+
+/* Core PM Skills Section */
+.core-skills-section {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.core-skills-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-color);
+  text-underline-offset: 6px;
+  color: var(--text-primary);
+}
+
+.core-skills-intro {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+  max-width: 800px;
+}
+
+.core-skill-block {
+  margin-bottom: 2.5rem;
+}
+
+.core-skill-subtitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Make the # distinct if desired, currently part of text */
+
+.core-skill-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.core-skill-item {
+  color: var(--text-secondary);
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.core-skill-item strong {
+  color: var(--accent-primary);
+  font-weight: 600;
 }
