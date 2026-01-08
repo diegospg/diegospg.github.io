@@ -1,7 +1,7 @@
 ---
-title: Modernização de Identidade: Refatoração com AWS Cognito [Webmotors]
+title: Modernização de Identidade: Refatoração com AWS Cognito
 summary: Refatoração completa do fluxo de identidade e acesso utilizando AWS Cognito, implementando MFA e OAuth 2.0.
-tags: AWS Cognito, OAuth 2.0, Security, MFA
+tags: Webmotors, AWS Cognito, OAuth 2.0, Security, MFA
 ---
 
 ### Oportunidade
