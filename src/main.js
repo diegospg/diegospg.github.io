@@ -49,6 +49,7 @@ const skillsCategories = [
   { category: "Cloud & Infra", items: "AWS (Lambda, SQS, ECS, RDS), Docker, mTLS, Serverless" },
   { category: "E-commerce & ERP", items: "VTEX, Totvs Protheus, SAP, NetSuite, Integrações Bancárias" },
   { category: "Dados & IA", items: "Google Antigravity, SQL Server, ETL, Generative AI (Claude API)" },
+  { category: "Design & Tools", items: "Jira, Miro, Draw.io" },
   { category: "Idiomas", items: "Advanced English" }
 ];
 
