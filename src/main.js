@@ -212,49 +212,6 @@ async function loadProjects() {
   });
 }
 
-// --- Popups ---
-function showWelcomePopup() {
-  const popupHTML = `
-    <div class="popup-overlay active" id="welcome-popup">
-      <div class="popup-container">
-        <h2 class="popup-title">Olá!</h2>
-        <p class="popup-text">
-          Aqui você pode visualizar um pouco mais da minha jornada.<br>
-          Se ficar alguma dúvida, entre em contato comigo.<br><br>
-          E, se puder, deixa o seu feedback para me ajudar a melhorar o portfólio.
-        </p>
-        <div class="popup-actions">
-          <button class="btn-primary" onclick="document.getElementById('welcome-popup').classList.remove('active')">Acessar Portfólio</button>
-        </div>
-      </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML('beforeend', popupHTML);
-}
-
-function setupExitIntent() {
-  let exitIntentShown = false;
-
-  document.addEventListener('mouseleave', (e) => {
-    if (e.clientY <= 0 && !exitIntentShown) {
-      exitIntentShown = true;
-      const popupHTML = `
-        <div class="popup-overlay active" id="exit-popup">
-          <div class="popup-container">
-            <h2 class="popup-title">Você se importa em deixar um feedback?</h2>
-            <p class="popup-text">São apenas quatro perguntinhas que vão me ajudar muito.</p>
-            <div class="popup-actions">
-              <a href="https://docs.google.com/forms/d/1nK78qcNMCaZryqXvATI9n8HrsMpVdU8gJaO8xp9rLr4/viewform?edit_requested=true" target="_blank" class="btn-primary" onclick="document.getElementById('exit-popup').classList.remove('active')">Sim, vou responder</a>
-              <button class="btn-secondary" onclick="document.getElementById('exit-popup').classList.remove('active')">Fica para a próxima</button>
-            </div>
-          </div>
-        </div>
-      `;
-      document.body.insertAdjacentHTML('beforeend', popupHTML);
-    }
-  });
-}
-
 // --- Modal Logic ---
 const modal = document.getElementById('project-modal');
 const modalTitle = document.getElementById('modal-title');
@@ -325,5 +282,3 @@ renderSkills();
 renderMainSkills();
 renderCoreSkills();
 loadProjects();
-showWelcomePopup();
-setupExitIntent();
